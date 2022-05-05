@@ -110,7 +110,7 @@ namespace HomeWork4
             get
             {
                 int max = int.MinValue;
-                for(int i =0; i < _arr.Length; i++)
+                for (int i = 0; i < _arr.Length; i++)
                 {
                     if (_arr[i] > max) max = _arr[i];
                 }
@@ -118,7 +118,25 @@ namespace HomeWork4
             }
         }
 
-
+        public int[] MaxCount
+        {
+            get
+            {
+                int[] resultCount = new int[_arr.Length];
+                int[] mass = new int[Max + 1];
+                foreach (var a in _arr) mass[a]++;
+                int ndx = 0;
+                for(int i=0; i < mass.Length; i++)
+                {
+                    if (i == _arr[ndx])
+                    {
+                        resultCount[ndx] = mass[i];
+                        ndx++;
+                    }
+                }
+                return resultCount;
+            }
+        }
 
         public void Multi(int x)
         {
@@ -250,6 +268,7 @@ namespace HomeWork4
                             }
                         case 4:
                             {
+                                var m = coolArray.MaxCount;
                                 break;
                             }
                     }
