@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HomeWork_FirstLesson\GeekBrainsLib\GeekBrainsLib.csproj">
+      <Project>{b0e2566c-4d6e-45f8-b027-72c46edce20f}</Project>
+      <Name>GeekBrainsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
