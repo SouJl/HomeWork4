@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using GeekBrainsLib;
+using ArrayLib;
 
 namespace HomeWork4
 {
@@ -10,6 +11,12 @@ namespace HomeWork4
     /// </summary>
     class MyStaticArray
     {
+        /// <summary>
+        /// Нахождение количества пар элементов
+        /// </summary>
+        /// <param name="arr">массив</param>
+        /// <param name="pairValue">поисковое значение</param>
+        /// <returns></returns>
         public static int GetPairCount(int[] arr, int pairValue)
         {
             int count = 0;
@@ -23,11 +30,16 @@ namespace HomeWork4
             return count;
         }
 
-        public static int[] ReadArrayFromFile(string filename)
+        /// <summary>
+        /// Чтение массива из файла
+        /// </summary>
+        /// <param name="filePath">путь до файла</param>
+        /// <returns></returns>
+        public static int[] ReadArrayFromFile(string filePath)
         {
             try
             {
-                StreamReader fs = new StreamReader(filename);
+                StreamReader fs = new StreamReader(filePath);
                 List<int> result = new List<int>();
                 while (!fs.EndOfStream)
                 {
@@ -113,9 +125,9 @@ namespace HomeWork4
             }
         }
 
-        /*
-         Заполнение массива случайными числами используя метод SetArray()
-         */
+        /// <summary>
+        /// Заполнение массива случайными числами используя метод SetArray()
+        /// </summary>
         static void Exercise1()
         {
             Console.WriteLine("Нахождение пар элементов массива с использованием метода");
@@ -124,9 +136,9 @@ namespace HomeWork4
             ModifiedConsole.Pause();
         }
 
-        /*
-         Реализация Exercise1 с ипользованием статического класса
-         */
+        /// <summary>
+        ///  Реализация Exercise1 с ипользованием статического класса
+        /// </summary>
         static void Exercise2()
         {
             bool isWork = true;
@@ -189,9 +201,9 @@ namespace HomeWork4
         
         }
 
-        /*
-         Реализация взаимодействия с написанным классом массива
-         */
+        /// <summary>
+        /// Реализация взаимодействия с написанным классом массива
+        /// </summary>
         static void Exercise3()
         {
             Console.Clear();
@@ -205,7 +217,7 @@ namespace HomeWork4
             int strt = int.Parse(Console.ReadLine());
             Console.Write("Шаг: ");
             int offset = int.Parse(Console.ReadLine());
-            MyArray coolArray = new MyArray(n, strt, offset);
+            GbArray coolArray = new GbArray(n, strt, offset);
             bool isWork = true;
             while (isWork)
             {
@@ -215,6 +227,7 @@ namespace HomeWork4
                 Console.WriteLine("2) Выполнить инверсию");
                 Console.WriteLine("3) Умножить массив на число");
                 Console.WriteLine("4) Вывести количество максимальных элементов");
+                Console.WriteLine("5) Подсчет частоты вхождения элементов массива");
                 Console.WriteLine("0) Назад");
                 Console.Write("Введите номер меню: ");
                 if (int.TryParse(Console.ReadLine(), out int ndx))
@@ -260,11 +273,32 @@ namespace HomeWork4
                                     int min = int.Parse(Console.ReadLine());
                                     Console.Write("Максимальное значение: ");
                                     int max = int.Parse(Console.ReadLine());
-                                    coolArray = new MyArray(n, (min, max));
+                                    coolArray = new GbArray(n, (min, max));
                                 }
                                 Console.Clear();
                                 coolArray.Print();
                                 Console.WriteLine($"Максимальное число массива: {coolArray.Max} <--> Количество в массиве: {coolArray.MaxCount}");
+                                break;
+                            }
+                        case 5: 
+                            {
+
+                                Console.Write("Перезаполнить массив случайными числами?(y/n): ");
+                                if (Console.ReadLine() == "y")
+                                {
+                                    Console.Write("Минимальное значение: ");
+                                    int min = int.Parse(Console.ReadLine());
+                                    Console.Write("Максимальное значение: ");
+                                    int max = int.Parse(Console.ReadLine());
+                                    coolArray = new GbArray(n, (min, max));
+                                }
+                                Console.Clear();
+                                coolArray.Print();
+                                Console.WriteLine("Частота вхождения элементво в массив (неотрицательных)");
+                                foreach(var elem in coolArray.GetElementsFrequency()) 
+                                {
+                                    Console.WriteLine($"Количество {elem.Key} = {elem.Value}");
+                                }
                                 break;
                             }
                         case 0: 
@@ -280,10 +314,10 @@ namespace HomeWork4
             }
         }
 
-        /*        
-        Решение задачи с логинами из урока 2. Логины и пароли считываются из файла в массив. 
-        Создание структуры Account, содержащую Login и Password
-         */
+        /// <summary>
+        ///  Решение задачи с логинами из урока 2. Логины и пароли считываются из файла в массив. 
+        ///  Создание структуры Account, содержащую Login и Password
+        /// </summary>
         static void Exercise4()
         {
             Account origin = new Account { login = "root", password = "GeekBrains" };
@@ -311,9 +345,9 @@ namespace HomeWork4
             ModifiedConsole.Pause();
         }
 
-        /*
-         Пример работы собственной коллекции Dictionary 
-         */
+        /// <summary>
+        /// Пример работы собственной коллекции Dictionary 
+        /// </summary>
         static void Exercise5()
         {
             Console.Clear();
@@ -470,6 +504,9 @@ namespace HomeWork4
             }
         }
 
+        /// <summary>
+        /// Метод задания массива и заполнения случайными числами
+        /// </summary>
         static void SetArray()
         {
             int[] mass = new int[20];
@@ -496,13 +533,18 @@ namespace HomeWork4
             Console.WriteLine($"Найденое число пар элементов массива: {count}");
         }
 
-        static Account[] ReadUsersData(string filename)
+        /// <summary>
+        /// Считывание данных пользователей из файла
+        /// </summary>
+        /// <param name="filePath">путь до файла</param>
+        /// <returns></returns>
+        static Account[] ReadUsersData(string filePath)
         {
-            if (!File.Exists(filename))
+            if (!File.Exists(filePath))
                 throw new ArgumentException();
 
             List<Account> result = new List<Account>();
-            StreamReader fs = new StreamReader(filename);
+            StreamReader fs = new StreamReader(filePath);
             while (!fs.EndOfStream)
             {
                 string login = fs.ReadLine();
@@ -517,6 +559,10 @@ namespace HomeWork4
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Вывод массива в консоль
+        /// </summary>
+        /// <param name="arr">массив</param>
         static void PrintArray(int[] arr)
         {
             foreach (int a in arr) Console.Write($"{a}\t");

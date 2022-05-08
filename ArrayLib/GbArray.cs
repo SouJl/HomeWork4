@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HomeWork4
+namespace ArrayLib
 {
-    /// <summary>
-    /// Класс одномерного массива
-    /// </summary>
-    public class MyArray
+    public class GbArray
     {
         private int[] _arr;
 
@@ -22,9 +16,9 @@ namespace HomeWork4
             }
         }
 
-        public MyArray(int n) => _arr = new int[n];
+        public GbArray(int n) => _arr = new int[n];
 
-        public MyArray(int n, int start, int offset)
+        public GbArray(int n, int start, int offset)
         {
             _arr = new int[n];
             for (int i = 0; i < _arr.Length; i++)
@@ -33,7 +27,7 @@ namespace HomeWork4
             }
         }
 
-        public MyArray(int n, (int min, int max) range)
+        public GbArray(int n, (int min, int max) range)
         {
             _arr = new int[n];
             Random rnd = new Random();
@@ -101,6 +95,7 @@ namespace HomeWork4
             }
         }
 
+
         public void Multi(int x)
         {
             for (int i = 0; i < _arr.Length; i++)
@@ -116,6 +111,27 @@ namespace HomeWork4
                 _arr[i] = (int)(_arr[i] * x);
             }
         }
+
+        public Dictionary<int, int> GetElementsFrequency()
+        {
+            Dictionary<int, int> result = new Dictionary<int, int>();
+            int[] mass = new int[Max + 1];
+            foreach (var a in _arr)
+            {
+                if(a >= 0)
+                    mass[a]++;
+            }
+            for (int i = 0; i < mass.Length; i++)
+            {
+                if (mass[i] != 0)
+                {
+                    result.Add(i, mass[i]);
+                }
+            }
+
+            return result;
+        }
+
 
         public void Print()
         {
