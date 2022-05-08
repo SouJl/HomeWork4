@@ -5,30 +5,21 @@ using GeekBrainsLib;
 
 namespace HomeWork4
 {
+    /// <summary>
+    /// Статический класс взаимодействия с одномерным массивом
+    /// </summary>
     class MyStaticArray
     {
-        public static int GetPairCount(int length, int pairValue)
+        public static int GetPairCount(int[] arr, int pairValue)
         {
-            Random rnd = new Random();
-            int[] arr = new int[length];
             int count = 0;
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Length - 1; i++)
             {
-                arr[i] = rnd.Next(-10000, 10000);
-
-                if (i == arr.Length / 2)
-                    Console.WriteLine();
-                Console.Write($"{arr[i]}\t");
-
-                if (i > 0 && i < arr.Length - 1)
+                if (arr[i] % pairValue == 0 ^ arr[i + 1] % pairValue == 0)
                 {
-                    if (arr[i - 1] % pairValue == 0 && arr[i] % pairValue == 0)
-                    {
-                        count++;
-                    }
+                    count++;
                 }
             }
-            Console.WriteLine();
             return count;
         }
 
@@ -53,120 +44,9 @@ namespace HomeWork4
         }
     }
 
-    class MyCoolArray
-    {
-        private int[] _arr;
-
-        public int this[int ndx]
-        {
-            get => _arr[ndx];
-            set
-            {
-                _arr[ndx] = value;
-            }
-        }
-
-
-        public MyCoolArray(int n) => _arr = new int[n];
-
-        public MyCoolArray(int n, int start, int offset)
-        {
-            _arr = new int[n];
-            for (int i = 0; i < _arr.Length; i++)
-            {
-                _arr[i] = start + offset * (i + 1);
-            }
-        }
-
-        public int Sum
-        {
-            get
-            {
-                int sum = 0;
-                for (int i = 0; i < _arr.Length; i++)
-                {
-                    sum += _arr[i];
-                }
-                return sum;
-            }
-        }
-
-
-        public int[] Inverse
-        {
-            get
-            {
-                int[] result = new int[_arr.Length];
-                for (int i = 0; i < _arr.Length; i++)
-                {
-                    result[i] = -_arr[i];
-                }
-                return result;
-            }
-        }
-
-        public int Max
-        {
-            get
-            {
-                int max = int.MinValue;
-                for (int i = 0; i < _arr.Length; i++)
-                {
-                    if (_arr[i] > max) max = _arr[i];
-                }
-                return max;
-            }
-        }
-
-        public int[] MaxCount
-        {
-            get
-            {
-                int[] resultCount = new int[_arr.Length];
-                int[] mass = new int[Max + 1];
-                foreach (var a in _arr) mass[a]++;
-                int ndx = 0;
-                for(int i=0; i < mass.Length; i++)
-                {
-                    if (i == _arr[ndx])
-                    {
-                        resultCount[ndx] = mass[i];
-                        ndx++;
-                    }
-                }
-                return resultCount;
-            }
-        }
-
-        public void Multi(int x)
-        {
-            for (int i = 0; i < _arr.Length; i++)
-            {
-                _arr[i] *= x;
-            }
-        }
-
-        public void Multi(double x)
-        {
-            for (int i = 0; i < _arr.Length; i++)
-            {
-                _arr[i] = (int)(_arr[i] * x);
-            }
-        }
-
-        public void Print()
-        {
-            for (int i = 0; i < _arr.Length; i++)
-            {
-                if (i == _arr.Length / 2)
-                    Console.WriteLine();
-                Console.Write($"{_arr[i]}\t");
-            }
-            Console.WriteLine();
-        }
-
-    }
-
+    /// <summary>
+    /// Струкура данных пользователя
+    /// </summary>
     struct Account
     {
         public string login;
@@ -177,29 +57,141 @@ namespace HomeWork4
     {
         static void Main(string[] args)
         {
-
-            Exercise1();
-            Console.SetCursorPosition(0, 5);
-            Exercise2();
-            Exercise3();
-            Exercise4();
-
-            Console.ReadKey();
+            ConsoleUI consoleUI = new ConsoleUI("Мельников Александр", "Практическое задание 4", 5);
+            Console.ForegroundColor = ConsoleColor.White;
+            bool isWork = true;
+            while (isWork)
+            {
+                Console.Clear();
+                consoleUI.PrintUserInfo();
+                consoleUI.PrintMenu();
+                if (int.TryParse(Console.ReadLine(), out int ndx))
+                {
+                    Console.Clear();
+                    switch (ndx)
+                    {
+                        default:
+                            break;
+                        case 1:
+                            {
+                                Exercise1();
+                                break;
+                            }
+                        case 2:
+                            {
+                                Exercise2();
+                                break;
+                            }
+                        case 3:
+                            {
+                                Exercise3();
+                                break;
+                            }
+                        case 4:
+                            {
+                                Exercise4();
+                                break;
+                            }
+                        case 5:
+                            {
+                                Exercise5();
+                                break;
+                            }
+                        case 0:
+                            {
+                                isWork = false;
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    ModifiedConsole.Print("Формат ввода неверен!");
+                    ModifiedConsole.Pause();
+                }
+            }
         }
 
-
+        /*
+         Заполнение массива случайными числами используя метод SetArray()
+         */
         static void Exercise1()
         {
-            Console.WriteLine("Работа метода");
+            Console.WriteLine("Нахождение пар элементов массива с использованием метода");
             SetArray();
-        }
-        static void Exercise2()
-        {
-            Console.WriteLine("Работа класса");
-            Console.WriteLine($"Найденое число пар элементов массива: {MyStaticArray.GetPairCount(20, 3)}");
-            MyStaticArray.ReadArrayFromFile(@"C:\Users\Alexander\Desktop\array.txt");
+            Console.WriteLine("Для продолжения нажмите любую клавишу...");
+            ModifiedConsole.Pause();
         }
 
+        /*
+         Реализация Exercise1 с ипользованием статического класса
+         */
+        static void Exercise2()
+        {
+            bool isWork = true;
+            while (isWork)
+            {
+                Console.Clear();
+                Console.WriteLine("Пример работы с массивом через статический класс");
+                Console.WriteLine("1) -> Нахождение пар элементов");
+                Console.WriteLine("2) -> Чтение массива из файла");
+                Console.WriteLine("0) -> Назад");
+                Console.Write("Введите номер пункта: ");
+                if (int.TryParse(Console.ReadLine(), out int ndx))
+                {
+                    Console.Clear();
+                    switch (ndx)
+                    {
+                        default:
+                            break;
+                        case 1:
+                            {
+                                Console.Write("Введите количество эдементво массива: ");
+                                int n = int.Parse(Console.ReadLine());
+                                int[] array = new int[n];
+                                Random rnd = new Random();
+                                for (int i = 0; i < array.Length; i++)
+                                {
+                                    array[i] = rnd.Next(-10000, 10000);
+                                }
+                                PrintArray(array);
+                                Console.WriteLine($"Найденое число пар элементов массива, деленных на 3: {MyStaticArray.GetPairCount(array, 3)}");
+                                break;
+                            }
+                        case 2:
+                            {
+                                string filePath = Environment.CurrentDirectory + @"\Files\Array.txt";
+                                Console.WriteLine($"Чтение массива из {filePath}");
+                                Console.WriteLine("Нажмите любую клавишу чтобы прочитать массив");
+                                Console.ReadKey();
+                                Console.Clear();
+                                int[] array = MyStaticArray.ReadArrayFromFile(filePath);
+                                if (array != null)
+                                    PrintArray(array);
+                                break;
+                            }
+                        case 0:
+                            {
+                                isWork = false;
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    ModifiedConsole.Print("Формат ввода неверен!");
+                }
+                Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                ModifiedConsole.Pause();
+            }
+        
+        }
+
+        /*
+         Реализация взаимодействия с написанным классом массива
+         */
         static void Exercise3()
         {
             Console.Clear();
@@ -213,7 +205,7 @@ namespace HomeWork4
             int strt = int.Parse(Console.ReadLine());
             Console.Write("Шаг: ");
             int offset = int.Parse(Console.ReadLine());
-            MyCoolArray coolArray = new MyCoolArray(n, strt, offset);
+            MyArray coolArray = new MyArray(n, strt, offset);
             bool isWork = true;
             while (isWork)
             {
@@ -236,20 +228,13 @@ namespace HomeWork4
                             {
                                 coolArray.Print();
                                 Console.WriteLine($"Сумма элементов массива = {coolArray.Sum}");
-                                Console.ReadKey();
                                 break;
                             }
                         case 2:
                             {
                                 Console.WriteLine("Обратный массив");
                                 int[] inversArr = coolArray.Inverse;
-                                for (int i = 0; i < inversArr.Length; i++)
-                                {
-                                    if (i == inversArr.Length / 2)
-                                        Console.WriteLine();
-                                    Console.Write($"{inversArr[i]}\t");
-                                }
-                                Console.ReadKey();
+                                PrintArray(inversArr);
                                 break;
                             }
                         case 3:
@@ -268,19 +253,44 @@ namespace HomeWork4
                             }
                         case 4:
                             {
-                                var m = coolArray.MaxCount;
+                                Console.Write("Перезаполнить массив случайными числами?(y/n): ");
+                                if (Console.ReadLine() == "y")
+                                {
+                                    Console.Write("Минимальное значение: ");
+                                    int min = int.Parse(Console.ReadLine());
+                                    Console.Write("Максимальное значение: ");
+                                    int max = int.Parse(Console.ReadLine());
+                                    coolArray = new MyArray(n, (min, max));
+                                }
+                                Console.Clear();
+                                coolArray.Print();
+                                Console.WriteLine($"Максимальное число массива: {coolArray.Max} <--> Количество в массиве: {coolArray.MaxCount}");
+                                break;
+                            }
+                        case 0: 
+                            {
+                                isWork = false;
                                 break;
                             }
                     }
+                    Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                    ModifiedConsole.Pause();
                 }
 
             }
         }
 
+        /*        
+        Решение задачи с логинами из урока 2. Логины и пароли считываются из файла в массив. 
+        Создание структуры Account, содержащую Login и Password
+         */
         static void Exercise4()
         {
             Account origin = new Account { login = "root", password = "GeekBrains" };
-            Account[] users = ReadUsersData(@"C:\Users\melnikova.SNIA\Desktop\users.txt");
+            Account[] users = ReadUsersData(Environment.CurrentDirectory + @"\Files\Users.txt");
+            Console.WriteLine("Считывание данных пользователей из файла");
+            Console.WriteLine(Environment.CurrentDirectory + @"\Files\Users.txt");
+            Console.WriteLine();
             foreach (var user in users)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -295,6 +305,168 @@ namespace HomeWork4
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("доступ разрешен!");
                 }
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Для продолжения нажмите любую клавишу...");
+            ModifiedConsole.Pause();
+        }
+
+        /*
+         Пример работы собственной коллекции Dictionary 
+         */
+        static void Exercise5()
+        {
+            Console.Clear();
+            Console.WriteLine("========================");
+            Console.WriteLine("Класс работы с двумерным массивом");
+            Console.WriteLine("========================");
+            Console.WriteLine("Задание параметров массива:");
+
+            Console.WriteLine("Размерность массива");
+            Console.Write("Количество строк: ");
+            int n = int.Parse(Console.ReadLine());
+            Console.Write("Количество столбцов: ");
+            int l = int.Parse(Console.ReadLine());
+            Console.Write("Минимальное значение: ");
+            int min = int.Parse(Console.ReadLine());
+            Console.Write("Максимальное значение: ");
+            int max = int.Parse(Console.ReadLine());
+            MyDictionary dictionary;
+
+            if (n == l)
+                dictionary = new MyDictionary(n, (min, max));
+            else
+                dictionary = new MyDictionary(n, l, (min, max));
+
+            bool isWork = true;
+            while (isWork)
+            {
+                Console.Clear();
+                dictionary.Print();
+                Console.WriteLine("1) Вывести сумму элементов");
+                Console.WriteLine("2) Вывести сумму элементов больше заданного");
+                Console.WriteLine("3) Минимальный элемент массива");
+                Console.WriteLine("4) Максимальный элемент массива");
+                Console.WriteLine("5) Номер максимального элемента массива");
+                Console.WriteLine("6) Взаимодействие с файлом");
+                Console.WriteLine("0) Назад");
+                Console.Write("Введите номер меню: ");
+                if (int.TryParse(Console.ReadLine(), out int ndx))
+                {
+                    Console.Clear();
+                    switch (ndx)
+                    {
+                        default:
+                            break;
+                        case 1:
+                            {
+                                dictionary.Print();
+                                Console.WriteLine($"Сумма элементов массива = {dictionary.Sum()}");
+                                break;
+                            }
+                        case 2:
+                            {
+                                dictionary.Print();
+                                Console.Write("Введите элемент массива: ");
+                                if (int.TryParse(Console.ReadLine(), out int num))
+                                {
+                                    Console.WriteLine($"Сумма элементов массива = {dictionary.Sum(num)}");
+                                }
+                                else
+                                {
+                                    Console.Clear();
+                                    ModifiedConsole.Print("Формат ввода неверен!");
+                                }
+                                break;
+                            }
+                        case 3:
+                            {
+                                dictionary.Print();
+                                Console.WriteLine($"Минимальный эемент массива: {dictionary.Min}");
+                                break;
+                            }
+                        case 4:
+                            {
+                                dictionary.Print();
+                                Console.WriteLine($"Минимальный эемент массива: {dictionary.Max}");
+                                break;
+                            }
+                        case 5:
+                            {
+                                dictionary.Print();
+                                dictionary.MaxPosition(out int x, out int y);
+                                Console.WriteLine($"Номер максимального элемента массива: [{x},{y}]");
+                                break;
+                            }
+                        case 6:
+                            {
+
+                                Console.WriteLine("1) Считать из файла");
+                                Console.WriteLine("2) Записать в файл");
+                                Console.Write("Введите номер: ");
+                                if (int.TryParse(Console.ReadLine(), out int num))
+                                {
+                                    switch (num)
+                                    {
+                                        default:
+                                            break;
+                                        case 1:
+                                            {
+                                                
+                                                string filePath = Environment.CurrentDirectory + @"\Files\Dictionary.txt";
+                                                Console.WriteLine($"Чтение массива из {filePath}");
+                                                Console.WriteLine("Нажмите любую клавишу чтобы прочитать массив");
+                                                Console.ReadKey();
+                                                MyDictionary tmp = MyDictionary.Read(filePath);
+                                                Console.Clear();
+                                                if (tmp != null)
+                                                {
+                                                    Console.WriteLine("Результат считывания из файла");
+                                                    tmp.Print();
+                                                    Console.Write("Перезаписать начальный массив? (y/n): ");
+                                                    if(Console.ReadLine() == "y") 
+                                                    {
+                                                        dictionary = tmp;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Не удалось считать массив из файла");
+                                                }
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                string filePath = Environment.CurrentDirectory + @"\Files\Dictionary.txt";
+                                                Console.WriteLine($"Запись массива в {filePath}");
+                                                Console.WriteLine("Нажмите любую клавишу чтобы записать массив");
+                                                Console.ReadKey();
+                                                Console.Clear();
+                                                if (dictionary.Write(filePath)) 
+                                                {
+                                                    Console.WriteLine("Массив успешно записан в файл");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Произошла ошибка при записи в файл");
+                                                }
+                                                break;
+                                            }
+                                    }
+                                }
+                                break;
+                            }
+                        case 0:
+                            {
+                                isWork = false;
+                                break;
+                            }
+                    }
+                    Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                    ModifiedConsole.Pause();
+                }
+
             }
         }
 
@@ -313,7 +485,7 @@ namespace HomeWork4
                 Console.Write($"{mass[i]}\t");
                 if (i > 0 && i < mass.Length - 1)
                 {
-                    if (mass[i - 1] % 3 == 0 && mass[i] % 3 == 0)
+                    if (mass[i - 1] % 3 == 0 ^ mass[i] % 3 == 0)
                     {
                         count++;
                     }
@@ -343,6 +515,12 @@ namespace HomeWork4
             }
 
             return result.ToArray();
+        }
+
+        static void PrintArray(int[] arr)
+        {
+            foreach (int a in arr) Console.Write($"{a}\t");
+            Console.WriteLine();
         }
     }
 }
