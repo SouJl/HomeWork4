@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HomeWork4
+namespace ArrayLib
 {
-    /// <summary>
-    /// Класс двумерного массива
-    /// </summary>
-    public class MyDictionary
+    public class GbDictionary
     {
         private int[,] arr;
 
-        public MyDictionary(int[,] arr)
+        public GbDictionary(int[,] arr)
         {
             this.arr = arr;
         }
 
-        public MyDictionary(int n, (int min, int max) range)
+        public GbDictionary(int n, (int min, int max) range)
         {
             Random rnd = new Random();
             arr = new int[n, n];
@@ -32,7 +25,7 @@ namespace HomeWork4
             }
         }
 
-        public MyDictionary(int n, int l, (int min, int max) range)
+        public GbDictionary(int n, int l, (int min, int max) range)
         {
             Random rnd = new Random();
             arr = new int[n, l];
@@ -86,7 +79,7 @@ namespace HomeWork4
             }
         }
 
-        public static MyDictionary Read(string fileName)
+        public static GbDictionary Read(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -102,7 +95,7 @@ namespace HomeWork4
                     }
                 }
 
-                return new MyDictionary(arr);
+                return new GbDictionary(arr);
             }
             else return null;
         }
@@ -127,7 +120,7 @@ namespace HomeWork4
                 catch
                 {
                     return false;
-                }           
+                }
             }
             else return false;
 

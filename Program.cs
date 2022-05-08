@@ -365,12 +365,12 @@ namespace HomeWork4
             int min = int.Parse(Console.ReadLine());
             Console.Write("Максимальное значение: ");
             int max = int.Parse(Console.ReadLine());
-            MyDictionary dictionary;
+            GbDictionary dictionary;
 
             if (n == l)
-                dictionary = new MyDictionary(n, (min, max));
+                dictionary = new GbDictionary(n, (min, max));
             else
-                dictionary = new MyDictionary(n, l, (min, max));
+                dictionary = new GbDictionary(n, l, (min, max));
 
             bool isWork = true;
             while (isWork)
@@ -451,7 +451,7 @@ namespace HomeWork4
                                                 Console.WriteLine($"Чтение массива из {filePath}");
                                                 Console.WriteLine("Нажмите любую клавишу чтобы прочитать массив");
                                                 Console.ReadKey();
-                                                MyDictionary tmp = MyDictionary.Read(filePath);
+                                                GbDictionary tmp = GbDictionary.Read(filePath);
                                                 Console.Clear();
                                                 if (tmp != null)
                                                 {
